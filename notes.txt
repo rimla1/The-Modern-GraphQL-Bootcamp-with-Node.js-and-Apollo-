@@ -1,0 +1,4 @@
+There are three major operations that we can perform on any GraphQL API:
+    query (allows us to fetch data)
+    mutations (allows us to change data)
+    subscription (watch data for changes great for real time app)
