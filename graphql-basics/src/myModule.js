@@ -3,4 +3,7 @@ const message = "Hello from myModule.js";
 
 const name = "Almir";
 
-export { message, name };
+// default export
+const location = "Serbia";
+
+export { message, name, location as default };
