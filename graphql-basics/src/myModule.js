@@ -6,4 +6,9 @@ const name = "Almir";
 // default export
 const location = "Serbia";
 
-export { message, name, location as default };
+// function export
+const sumNumbers = (num1, num2) => {
+  console.log(num1 + num2);
+};
+
+export { message, name, sumNumbers, location as default };
