@@ -6,6 +6,8 @@ const typeDefs = `
         hello: String!
         name: String!
         age: String!
+        location: String!
+        bio: String!
     }
 `;
 
@@ -20,6 +22,12 @@ const resolvers = {
     },
     age() {
       return "20";
+    },
+    bio() {
+      return "I am programmer, nice to meet you!";
+    },
+    location() {
+      return "I am from Novi Pazar..";
     },
   },
 };
