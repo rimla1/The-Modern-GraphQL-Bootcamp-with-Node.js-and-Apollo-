@@ -1,3 +1,5 @@
+By nature all GraphQL APIs are self documented
+
 There are three major operations that we can perform on any GraphQL API:
     query (allows us to fetch data)
     mutations (allows us to change data)
@@ -10,3 +12,12 @@ field: hello
 query{
     hello
 }
+
+Nested query
+query{
+    posts{
+        title
+    }
+}
+
+From posts get each title's post
