@@ -21,3 +21,5 @@ query{
 }
 
 From posts get each title's post
+
+users: [User!]! - We must must return an array [] with elemnts of custom made type User
