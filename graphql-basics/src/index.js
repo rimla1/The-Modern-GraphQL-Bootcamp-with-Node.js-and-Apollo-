@@ -1,5 +1,4 @@
-import myLocation, { message, sumNumbers, name } from "./myModule";
+import addTwoNumbers, { substract } from "./math";
 
-console.log(message, name, myLocation);
-
-sumNumbers(5, 9);
+console.log(addTwoNumbers(5, 20));
+console.log(substract(5, 20));
