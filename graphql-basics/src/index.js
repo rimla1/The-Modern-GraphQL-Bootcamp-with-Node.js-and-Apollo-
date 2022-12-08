@@ -8,6 +8,11 @@ const typeDefs = `
         isOpen: Boolean!
         id: ID!
         rating: Float
+        title: String!
+        price: Int!
+        releaseYear: Int
+        rate: Float
+        inStock: Boolean!
     }
 `;
 
@@ -28,6 +33,21 @@ const resolvers = {
     },
     id() {
       return "a2-b4-77-12-nnn";
+    },
+    title() {
+      return "MackBook";
+    },
+    price() {
+      return 1000;
+    },
+    releaseYear() {
+      return 2020;
+    },
+    rate() {
+      return null;
+    },
+    inStock() {
+      return true;
     },
   },
 };
