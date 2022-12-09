@@ -3,51 +3,27 @@ import { GraphQLServer } from "graphql-yoga";
 // Type Definitions (Scema)
 const typeDefs = `
     type Query {
-        name: String!
-        year: Int!
-        isOpen: Boolean!
+        me: User!
+    }
+
+    type User {
         id: ID!
-        rating: Float
-        title: String!
-        price: Int!
-        releaseYear: Int
-        rate: Float
-        inStock: Boolean!
+        name: String!
+        email: String!
+        age: Int
     }
 `;
 
 // Resolvers
 const resolvers = {
   Query: {
-    name() {
-      return "Hotel Rimla";
-    },
-    year() {
-      return 2002;
-    },
-    isOpen() {
-      return true;
-    },
-    rating() {
-      return 4.2;
-    },
-    id() {
-      return "a2-b4-77-12-nnn";
-    },
-    title() {
-      return "MackBook";
-    },
-    price() {
-      return 1000;
-    },
-    releaseYear() {
-      return 2020;
-    },
-    rate() {
-      return null;
-    },
-    inStock() {
-      return true;
+    me() {
+      return {
+        id: "2555",
+        name: "Almir",
+        email: "test@gmail.com",
+        age: 20,
+      };
     },
   },
 };
