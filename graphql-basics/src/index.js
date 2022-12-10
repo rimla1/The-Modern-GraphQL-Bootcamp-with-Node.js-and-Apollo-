@@ -5,6 +5,7 @@ const typeDefs = `
     type Query {
         add(a: Float!, b: Float!): Float!
         greeting(name: String, position: String): String!
+        grades: [Int!]!
         me: User!
         post: Post!
     }
@@ -27,14 +28,17 @@ const typeDefs = `
 // Resolvers
 const resolvers = {
   Query: {
-    add(parents, args, ctx, info) {
+    add(parent, args, ctx, info) {
       return args.a + args.b;
     },
-    greeting(parents, args, ctx, info) {
+    greeting(parent, args, ctx, info) {
       if (!args.name && !args.position) {
         return "Hello!";
       }
       return `Hello, ${args.name}! You are my favourite ${args.position}`;
+    },
+    grades(parent, args, ctx, info) {
+      return [99, 75, 50, 49, 10];
     },
     me() {
       return {
