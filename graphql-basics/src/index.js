@@ -21,13 +21,34 @@ const users = [
   },
 ];
 
+const posts = [
+  {
+    id: "1",
+    title: "Winter",
+    body: "Nice mountains with a lot of snow",
+    published: true,
+  },
+  {
+    id: "2",
+    title: "Spring",
+    body: "Nice flavour of flowers",
+    published: false,
+  },
+  {
+    id: "3",
+    title: "Summer",
+    body: "Swim at the pool",
+    published: false,
+  },
+];
+
 // Type Definitions (Scema)
 const typeDefs = `
     type Query {
         users(letter: String): [User!]!
         me: User!
         post: Post!
-        posts: [Post!]!
+        posts(letter: String): [Post!]!
     }
 
     type User {
@@ -56,21 +77,17 @@ const resolvers = {
         return user.name.toLowerCase().includes(args.letter.toLowerCase());
       });
     },
-    posts() {
-      return [
-        {
-          id: "4333",
-          title: "Winter",
-          body: "Nice mountains with a lot of snow",
-          published: true,
-        },
-        {
-          id: "2265",
-          title: "Spring",
-          body: "Nice flavour of flowers",
-          published: false,
-        },
-      ];
+    posts(parent, args, ctx, info) {
+      console.log(args.letter);
+      if (!args.letter) {
+        return posts;
+      }
+      return posts.filter((post) => {
+        return (
+          post.title.toLowerCase().includes(args.letter.toLowerCase()) ||
+          post.body.toLowerCase().includes(args.letter.toLowerCase())
+        );
+      });
     },
     me() {
       return {
