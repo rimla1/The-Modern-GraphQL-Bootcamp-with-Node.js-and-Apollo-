@@ -3,6 +3,7 @@ import { GraphQLServer } from "graphql-yoga";
 // Type Definitions (Scema)
 const typeDefs = `
     type Query {
+        add(a: Float!, b: Float!): Float!
         greeting(name: String, position: String): String!
         me: User!
         post: Post!
@@ -26,8 +27,10 @@ const typeDefs = `
 // Resolvers
 const resolvers = {
   Query: {
+    add(parents, args, ctx, info) {
+      return args.a + args.b;
+    },
     greeting(parents, args, ctx, info) {
-      console.log(args);
       if (!args.name && !args.position) {
         return "Hello!";
       }
