@@ -3,7 +3,7 @@ import { GraphQLServer } from "graphql-yoga";
 // Type Definitions (Scema)
 const typeDefs = `
     type Query {
-
+        users: [User!]!
         me: User!
         post: Post!
         posts: [Post!]!
@@ -27,6 +27,22 @@ const typeDefs = `
 // Resolvers
 const resolvers = {
   Query: {
+    users() {
+      return [
+        {
+          id: "2555",
+          name: "Almir",
+          email: "test@gmail.com",
+          age: 20,
+        },
+        {
+          id: "1122",
+          name: "Rimla",
+          email: "test2@gmail.com",
+          age: 22,
+        },
+      ];
+    },
     posts() {
       return [
         {
