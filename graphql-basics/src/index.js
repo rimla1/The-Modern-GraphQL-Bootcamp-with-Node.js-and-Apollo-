@@ -3,7 +3,8 @@ import { GraphQLServer } from "graphql-yoga";
 // Type Definitions (Scema)
 const typeDefs = `
     type Query {
-        add(a: Float!, b: Float!): Float!
+        addNNumbers(numbers: [Float!]!): Float!
+        addTwoNumbers(a: Float!, b: Float!): Float!
         greeting(name: String, position: String): String!
         grades: [Int!]!
         me: User!
@@ -28,7 +29,14 @@ const typeDefs = `
 // Resolvers
 const resolvers = {
   Query: {
-    add(parent, args, ctx, info) {
+    addNNumbers(parent, args, ctx, info) {
+      let result = 0;
+      for (let i = 0; i < args.numbers.length; i++) {
+        result += args.numbers[i];
+      }
+      return result;
+    },
+    addTwoNumbers(parent, args, ctx, info) {
       return args.a + args.b;
     },
     greeting(parent, args, ctx, info) {
