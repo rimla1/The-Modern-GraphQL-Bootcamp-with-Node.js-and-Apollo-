@@ -45,6 +45,25 @@ const posts = [
   },
 ];
 
+const comments = [
+  {
+    id: "1",
+    text: "That's awesome mountains over there",
+  },
+  {
+    id: "2",
+    text: "Kopaonik is better than that mountain. LOL!",
+  },
+  {
+    id: "3",
+    text: "Is is cool there?",
+  },
+  {
+    id: "4",
+    text: "Nice swimming pool",
+  },
+];
+
 // Type Definitions (Scema)
 const typeDefs = `
     type Query {
@@ -52,6 +71,7 @@ const typeDefs = `
         me: User!
         post: Post!
         posts(letter: String): [Post!]!
+        comments: [Comment!]!
     }
 
     type User {
@@ -68,6 +88,11 @@ const typeDefs = `
         body: String!
         published: Boolean!
         author: User!
+    }
+
+    type Comment {
+      id: ID!
+      text: String!
     }
 `;
 
@@ -109,6 +134,9 @@ const resolvers = {
         published: true,
         author: "1",
       };
+    },
+    comments() {
+      return comments;
     },
   },
   Post: {
