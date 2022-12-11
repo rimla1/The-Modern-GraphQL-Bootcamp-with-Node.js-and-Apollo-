@@ -50,21 +50,25 @@ const comments = [
     id: "1",
     text: "That's awesome mountains over there",
     author: "2",
+    post: "1",
   },
   {
     id: "2",
     text: "Kopaonik is better than that mountain. LOL!",
     author: "2",
+    post: "1",
   },
   {
     id: "3",
     text: "Is is cool there?",
     author: "3",
+    post: "1",
   },
   {
     id: "4",
     text: "Nice swimming pool",
     author: "1",
+    post: "3",
   },
 ];
 
@@ -93,12 +97,14 @@ const typeDefs = `
         body: String!
         published: Boolean!
         author: User!
+        comments: [Comment!]!
     }
 
     type Comment {
       id: ID!
       text: String!
       author: User!
+      post: Post!
     }
 `;
 
@@ -151,6 +157,11 @@ const resolvers = {
         return user.id === parent.author;
       });
     },
+    comments(parent, args, ctx, info) {
+      return comments.filter((comment) => {
+        return comment.post === parent.id;
+      });
+    },
   },
   User: {
     posts(parent, args, ctx, info) {
@@ -168,6 +179,11 @@ const resolvers = {
     author(parent, ags, ctx, info) {
       return users.find((user) => {
         return user.id === parent.author;
+      });
+    },
+    post(parent, args, ctx, info) {
+      return posts.find((post) => {
+        return post.id === parent.post;
       });
     },
   },
