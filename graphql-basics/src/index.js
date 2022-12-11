@@ -27,18 +27,21 @@ const posts = [
     title: "Winter",
     body: "Nice mountains with a lot of snow",
     published: true,
+    author: "1",
   },
   {
     id: "2",
     title: "Spring",
     body: "Nice flavour of flowers",
     published: false,
+    author: "1",
   },
   {
     id: "3",
     title: "Summer",
     body: "Swim at the pool",
     published: false,
+    author: "3",
   },
 ];
 
@@ -63,6 +66,7 @@ const typeDefs = `
         title: String!
         body: String!
         published: Boolean!
+        author: User!
     }
 `;
 
@@ -78,7 +82,6 @@ const resolvers = {
       });
     },
     posts(parent, args, ctx, info) {
-      console.log(args.letter);
       if (!args.letter) {
         return posts;
       }
@@ -103,7 +106,15 @@ const resolvers = {
         title: "Winter",
         body: "Nice mountains with a lot of snow",
         published: true,
+        author: "1",
       };
+    },
+  },
+  Post: {
+    author(parent, args, ctx, info) {
+      return users.find((user) => {
+        return user.id === parent.author;
+      });
     },
   },
 };
