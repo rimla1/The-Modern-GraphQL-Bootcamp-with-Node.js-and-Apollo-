@@ -1,4 +1,5 @@
 import { GraphQLServer } from "graphql-yoga";
+import { UserService } from "./userService";
 
 const users = [
   {
@@ -77,6 +78,7 @@ const typeDefs = `
     type Query {
         users(letter: String): [User!]!
         me: User!
+        user(userId: String!): User!
         post: Post!
         posts(letter: String): [Post!]!
         comments: [Comment!]!
@@ -108,6 +110,10 @@ const typeDefs = `
     }
 `;
 
+//
+
+const userService = new UserService();
+
 // Resolvers
 const resolvers = {
   Query: {
@@ -129,6 +135,12 @@ const resolvers = {
           post.body.toLowerCase().includes(args.letter.toLowerCase())
         );
       });
+    },
+    user(parent, args, ctx, info) {
+      console.log(args);
+      const user = userService.getUserById(args.userId);
+      console.log(user);
+      return user;
     },
     me() {
       return {
@@ -166,6 +178,7 @@ const resolvers = {
   User: {
     posts(parent, args, ctx, info) {
       return posts.filter((post) => {
+        console.log(post.author);
         return post.author === parent.id;
       });
     },
@@ -175,8 +188,11 @@ const resolvers = {
       });
     },
   },
+
   Comment: {
     author(parent, ags, ctx, info) {
+      console.log("Poziva se");
+      // data loaderi
       return users.find((user) => {
         return user.id === parent.author;
       });
