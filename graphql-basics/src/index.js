@@ -1,5 +1,6 @@
 import { GraphQLServer } from "graphql-yoga";
 import { UserService } from "./userService";
+import { v4 as uuidv4 } from "uuid";
 
 const users = [
   {
@@ -21,6 +22,8 @@ const users = [
     age: 22,
   },
 ];
+
+console.log(users);
 
 const posts = [
   {
@@ -141,9 +144,7 @@ const resolvers = {
       });
     },
     user(parent, args, ctx, info) {
-      console.log(args);
       const user = userService.getUserById(args.userId);
-      console.log(user);
       return user;
     },
     me() {
@@ -169,7 +170,22 @@ const resolvers = {
   },
   Mutation: {
     createUser(parent, args, ctx, info) {
-      console.log(args);
+      const emailTaken = users.some((user) => user.email === args.email);
+      if (emailTaken) {
+        throw new Error("User with that email already exists");
+      }
+
+      const user = {
+        id: uuidv4(),
+        name: args.name,
+        email: args.email,
+        age: args.age,
+      };
+
+      users.push(user);
+
+      console.log(user);
+      return user;
     },
   },
   Post: {
