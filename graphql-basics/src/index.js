@@ -215,7 +215,9 @@ const resolvers = {
     },
     createComment(parent, args, ctx, info) {
       const userExists = users.some((user) => user.id === args.author);
-      const postExists = posts.some((post) => post.id === args.post);
+      const postExists = posts.some((post) => {
+        return post.id === args.post && post.published === true;
+      });
       if (!userExists || !postExists) {
         throw new Error(
           "Comment does not have author or comment does not have post to be published"
