@@ -23,8 +23,6 @@ const users = [
   },
 ];
 
-console.log(users);
-
 const posts = [
   {
     id: "1",
@@ -48,6 +46,8 @@ const posts = [
     author: "3",
   },
 ];
+
+console.log(posts);
 
 const comments = [
   {
@@ -89,6 +89,12 @@ const typeDefs = `
 
     type Mutation {
       createUser(name: String!, email: String!, age: Int): User!
+      createPost(title: String!, body: String!, published: Boolean!, author: ID!): Post!
+    }
+
+    type Premium {
+      id: ID!
+      isPremium: Boolean!
     }
 
     type User {
@@ -96,9 +102,12 @@ const typeDefs = `
         name: String!
         email: String!
         age: Int
-        posts: [Post!]!
+        posts: [Post!]! 
         comments: [Comment!]!
+        premium: Premium!
     }
+
+
 
     type Post {
         id: ID!
@@ -174,9 +183,9 @@ const resolvers = {
       if (emailTaken) {
         throw new Error("User with that email already exists");
       }
-
+      const userId = uuidv4();
       const user = {
-        id: uuidv4(),
+        id: userId,
         name: args.name,
         email: args.email,
         age: args.age,
@@ -184,8 +193,24 @@ const resolvers = {
 
       users.push(user);
 
-      console.log(user);
       return user;
+    },
+    createPost(parent, args, ctx, info) {
+      const userExist = users.some((user) => user.id === args.author);
+      if (!userExist) {
+        throw new Error("User not found associated with a post!");
+      }
+
+      const post = {
+        id: uuidv4(),
+        title: args.title,
+        body: args.body,
+        published: args.published,
+        author: args.author,
+      };
+      posts.push(post);
+
+      return post;
     },
   },
   Post: {
@@ -203,7 +228,6 @@ const resolvers = {
   User: {
     posts(parent, args, ctx, info) {
       return posts.filter((post) => {
-        console.log(post.author);
         return post.author === parent.id;
       });
     },
@@ -212,11 +236,13 @@ const resolvers = {
         return comment.author === parent.id;
       });
     },
+    premium(parent, args, ctx, info) {
+      return { id: "1", isPremium: true };
+    },
   },
 
   Comment: {
     author(parent, ags, ctx, info) {
-      console.log("Poziva se");
       // data loaderi
       return users.find((user) => {
         return user.id === parent.author;
@@ -238,3 +264,6 @@ const server = new GraphQLServer({
 server.start(() => {
   console.log("Server is up and running on default port 4000");
 });
+
+// Mutaciju: Comments Posts
+// Query: comments: [], posts: []
