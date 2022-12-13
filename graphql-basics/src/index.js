@@ -47,8 +47,6 @@ const posts = [
   },
 ];
 
-console.log(posts);
-
 const comments = [
   {
     id: "1",
@@ -185,11 +183,10 @@ const resolvers = {
         throw new Error("User with that email already exists");
       }
       const userId = uuidv4();
+
       const user = {
         id: userId,
-        name: args.name,
-        email: args.email,
-        age: args.age,
+        ...args,
       };
 
       users.push(user);
@@ -204,10 +201,7 @@ const resolvers = {
 
       const post = {
         id: uuidv4(),
-        title: args.title,
-        body: args.body,
-        published: args.published,
-        author: args.author,
+        ...args,
       };
       posts.push(post);
 
@@ -226,9 +220,7 @@ const resolvers = {
 
       const comment = {
         id: uuidv4(),
-        text: args.text,
-        author: args.author,
-        post: args.post,
+        ...args,
       };
 
       comments.push(comment);
