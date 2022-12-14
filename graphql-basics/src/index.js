@@ -86,9 +86,15 @@ const typeDefs = `
     }
 
     type Mutation {
-      createUser(name: String!, email: String!, age: Int): User!
+      createUser(data: createUserInput): User!
       createPost(title: String!, body: String!, published: Boolean!, author: ID!): Post!
       createComment(text: String!, author: ID!, post: ID!): Comment!
+    }
+
+    input createUserInput {
+      name: String!,
+      email: String!,
+      age: Int
     }
 
     type Premium {
@@ -178,7 +184,7 @@ const resolvers = {
   },
   Mutation: {
     createUser(parent, args, ctx, info) {
-      const emailTaken = users.some((user) => user.email === args.email);
+      const emailTaken = users.some((user) => user.email === args.data.email);
       if (emailTaken) {
         throw new Error("User with that email already exists");
       }
@@ -186,7 +192,7 @@ const resolvers = {
 
       const user = {
         id: userId,
-        ...args,
+        ...args.data,
       };
 
       users.push(user);
