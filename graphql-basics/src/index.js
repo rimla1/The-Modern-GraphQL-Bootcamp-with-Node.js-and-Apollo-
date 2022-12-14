@@ -86,9 +86,9 @@ const typeDefs = `
     }
 
     type Mutation {
-      createUser(data: createUserInput): User!
-      createPost(data: createPostInput): Post!
-      createComment(data: createCommentInput): Comment!
+      createUser(data: createUserInput!): User!
+      createPost(data: createPostInput!): Post!
+      createComment(data: createCommentInput!): Comment!
     }
 
     input createUserInput {
