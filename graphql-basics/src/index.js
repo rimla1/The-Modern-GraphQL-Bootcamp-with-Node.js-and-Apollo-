@@ -88,7 +88,7 @@ const typeDefs = `
     type Mutation {
       createUser(data: createUserInput): User!
       createPost(data: createPostInput): Post!
-      createComment(text: String!, author: ID!, post: ID!): Comment!
+      createComment(data: createCommentInput): Comment!
     }
 
     input createUserInput {
@@ -102,6 +102,12 @@ const typeDefs = `
       body: String!,
       published: Boolean!,
       author: ID!
+    }
+
+    input createCommentInput{
+      text: String!,
+      author: ID!,
+      post: ID!
     }
 
     type Premium {
@@ -221,9 +227,9 @@ const resolvers = {
       return post;
     },
     createComment(parent, args, ctx, info) {
-      const userExists = users.some((user) => user.id === args.author);
+      const userExists = users.some((user) => user.id === args.data.author);
       const postExists = posts.some((post) => {
-        return post.id === args.post && post.published === true;
+        return post.id === args.data.post && post.published === true;
       });
       if (!userExists || !postExists) {
         throw new Error(
@@ -233,7 +239,7 @@ const resolvers = {
 
       const comment = {
         id: uuidv4(),
-        ...args,
+        ...args.data,
       };
 
       comments.push(comment);
