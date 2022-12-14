@@ -257,13 +257,7 @@ const resolvers = {
       }
       const deletedPosts = posts.splice(postIndex, 1);
 
-      comments = comments.filter((comment) => {
-        const match = comment.post === args.id;
-        if (match) {
-          comments = comments.filter((comment) => comment.post !== args.id);
-        }
-        return !match;
-      });
+      comments = comments.filter((comment) => comment.post !== args.id);
 
       return deletedPosts[0];
     },
