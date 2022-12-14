@@ -2,7 +2,7 @@ import { GraphQLServer } from "graphql-yoga";
 import { UserService } from "./userService";
 import { v4 as uuidv4 } from "uuid";
 
-const users = [
+let users = [
   {
     id: "1",
     name: "Almir",
@@ -23,7 +23,7 @@ const users = [
   },
 ];
 
-const posts = [
+let posts = [
   {
     id: "1",
     title: "Winter",
@@ -47,7 +47,7 @@ const posts = [
   },
 ];
 
-const comments = [
+let comments = [
   {
     id: "1",
     text: "That's awesome mountains over there",
@@ -87,6 +87,7 @@ const typeDefs = `
 
     type Mutation {
       createUser(data: createUserInput!): User!
+      deleteUser(id: ID!): User!
       createPost(data: createPostInput!): Post!
       createComment(data: createCommentInput!): Comment!
     }
@@ -211,6 +212,28 @@ const resolvers = {
       users.push(user);
 
       return user;
+    },
+    deleteUser(parent, args, ctx, info) {
+      const userIndex = users.findIndex((user) => user.id === args.id);
+      if (userIndex === -1) {
+        throw new Error("User does not exist!");
+      }
+
+      const deletedUsers = users.splice(userIndex, 1);
+
+      posts = posts.filter((post) => {
+        const match = post.author === args.id;
+        if (match) {
+          comments = comments.filter((comment) => comment.post !== post.id);
+        }
+        return !match;
+      });
+
+      comments = comments.filter((comment) => {
+        return comment.author !== args.id;
+      });
+
+      return deletedUsers[0];
     },
     createPost(parent, args, ctx, info) {
       const userExist = users.some((user) => user.id === args.data.author);
