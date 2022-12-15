@@ -40,12 +40,31 @@ const Mutation = {
     return deletedUsers[0];
   },
   updateUser(parent, args, { db }, info) {
-    const emailTaken = db.users.filter(
-      (user) => user.email === args.data.email
-    );
-    if (emailTaken) {
-      throw new Error("Email already taken!");
+    const user = db.users.find((user) => user.id === args.id);
+
+    if (!user) {
+      throw new Error("User does not exists!");
     }
+
+    if (typeof args.data.email === "string") {
+      const emailTaken = db.users.some((user) => {
+        return user.email === args.data.email;
+      });
+      if (emailTaken) {
+        throw new Error("User with that email already exists, try a new one!");
+      }
+      user.email = args.data.email;
+    }
+
+    if (typeof args.data.name === "string") {
+      user.name = args.data.name;
+    }
+
+    if (typeof args.data.age !== "undefined") {
+      user.age = args.data.age;
+    }
+
+    return user;
   },
   createPost(parent, args, { db }, info) {
     const userExist = db.users.some((user) => user.id === args.data.author);
