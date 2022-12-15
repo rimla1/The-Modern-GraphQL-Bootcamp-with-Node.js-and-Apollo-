@@ -6,21 +6,7 @@ import db from "./db";
 const userService = new UserService();
 
 // Resolvers
-const resolvers = {
-  Comment: {
-    author(parent, ags, { db }, info) {
-      // data loaderi
-      return db.users.find((user) => {
-        return user.id === parent.author;
-      });
-    },
-    post(parent, args, { db }, info) {
-      return db.posts.find((post) => {
-        return post.id === parent.post;
-      });
-    },
-  },
-};
+const resolvers = {};
 
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
