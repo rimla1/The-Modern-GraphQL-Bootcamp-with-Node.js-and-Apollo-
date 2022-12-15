@@ -1,3 +1,6 @@
+import { UserService } from "./userService";
+const userService = new UserService();
+
 const User = {
   posts(parent, args, { db }, info) {
     return db.posts.filter((post) => {
