@@ -1,4 +1,4 @@
-import { UserService } from "./userService";
+import { UserService } from "../userService";
 const userService = new UserService();
 
 const User = {
