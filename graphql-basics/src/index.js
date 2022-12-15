@@ -77,7 +77,7 @@ const resolvers = {
         throw new Error("User does not exist!");
       }
 
-      const deletedUsers = users.splice(userIndex, 1);
+      const deletedUsers = db.users.splice(userIndex, 1);
 
       db.posts = db.posts.filter((post) => {
         const match = post.author === args.id;
@@ -114,7 +114,7 @@ const resolvers = {
       if (postIndex === -1) {
         throw new Error("Post does not exists");
       }
-      const deletedPosts = posts.splice(postIndex, 1);
+      const deletedPosts = db.posts.splice(postIndex, 1);
 
       db.comments = db.comments.filter((comment) => comment.post !== args.id);
 
@@ -146,7 +146,7 @@ const resolvers = {
       if (commentIndex === -1) {
         throw new Error("Comment does not exist");
       }
-      const deletedComments = comments.splice(commentIndex, 1);
+      const deletedComments = db.comments.splice(commentIndex, 1);
 
       return deletedComments[0];
     },
