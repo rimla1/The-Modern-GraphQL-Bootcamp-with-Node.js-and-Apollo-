@@ -16,11 +16,11 @@ const resolvers = {
         return user.name.toLowerCase().includes(args.letter.toLowerCase());
       });
     },
-    posts(parent, args, ctx, info) {
+    posts(parent, args, { db }, info) {
       if (!args.letter) {
-        return posts;
+        return db.posts;
       }
-      return posts.filter((post) => {
+      return db.posts.filter((post) => {
         return (
           post.title.toLowerCase().includes(args.letter.toLowerCase()) ||
           post.body.toLowerCase().includes(args.letter.toLowerCase())
