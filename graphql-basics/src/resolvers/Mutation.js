@@ -39,6 +39,14 @@ const Mutation = {
 
     return deletedUsers[0];
   },
+  updateUser(parent, args, { db }, info) {
+    const emailTaken = db.users.filter(
+      (user) => user.email === args.data.email
+    );
+    if (emailTaken) {
+      throw new Error("Email already taken!");
+    }
+  },
   createPost(parent, args, { db }, info) {
     const userExist = db.users.some((user) => user.id === args.data.author);
     if (!userExist) {
