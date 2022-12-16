@@ -50,6 +50,10 @@ input createCommentInput {
   post: ID!
 }
 
+input updateCommentInput {
+  text: String
+}
+
 type Premium {
   id: ID!
   isPremium: Boolean!
