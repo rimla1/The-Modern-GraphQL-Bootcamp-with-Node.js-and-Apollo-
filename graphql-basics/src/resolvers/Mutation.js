@@ -140,6 +140,18 @@ const Mutation = {
 
     return deletedComments[0];
   },
+  updateComment(parent, args, { db }, info) {
+    const comment = db.comments.find((comment) => args.id === comment.id);
+    if (!comment) {
+      throw new Error("Comment not Found!");
+    }
+
+    if (typeof args.data.text === "string") {
+      comment.text = args.data.text;
+    }
+
+    return comment;
+  },
 };
 
 export { Mutation as default };
