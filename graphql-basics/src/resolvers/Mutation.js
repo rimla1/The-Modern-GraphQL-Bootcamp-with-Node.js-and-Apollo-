@@ -91,6 +91,25 @@ const Mutation = {
 
     return deletedPosts[0];
   },
+  updatePost(parent, args, { db }, info) {
+    const post = db.posts.find((post) => post.id === args.id);
+    if (!post) {
+      throw new Error("Post is not found!");
+    }
+    if (typeof args.data.title === "string") {
+      post.title = args.data.title;
+    }
+
+    if (typeof args.data.body === "string") {
+      post.body = args.data.body;
+    }
+
+    if (typeof args.data.published === "boolean") {
+      post.published = args.data.published;
+    }
+
+    return post;
+  },
   createComment(parent, args, { db }, info) {
     const userExists = db.users.some((user) => user.id === args.data.author);
     const postExists = db.posts.some((post) => {
