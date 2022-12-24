@@ -7,7 +7,7 @@ import Query from "./resolvers/Query";
 import Mutation from "./resolvers/Mutation";
 import Subscription from "./resolvers/Subscription";
 
-const pubSub = new PubSub();
+const pubsub = new PubSub();
 
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
@@ -19,7 +19,7 @@ const server = new GraphQLServer({
     Post,
     Comment,
   },
-  context: { db, pubSub },
+  context: { db, pubsub },
 });
 
 server.start(() => {
