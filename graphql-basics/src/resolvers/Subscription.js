@@ -13,6 +13,17 @@ const Subscription = {
       return pubsub.asyncIterator("counter"); // like a chatroom name
     },
   },
+  comment: {
+    subscribe(parent, { postId }, { db, pubsub }, info) {
+      const postExist = db.posts.find(
+        (post) => postId === post.id && post.published
+      );
+      if (!postExist) {
+        throw new Error("Post not found!");
+      }
+      return pubsub.asyncIterator(`Comment ${postId}`);
+    },
+  },
 };
 
 export { Subscription as default };
