@@ -127,7 +127,9 @@ const Mutation = {
     };
 
     db.comments.push(comment);
-    pubsub.publish(`Comment ${postExists.id}`);
+    console.log(comment);
+    console.log(`Comment ${postExists.id}`);
+    pubsub.publish(`Comment ${comment.post}`, { comment: comment });
     return comment;
   },
   deleteComment(parent, args, { db }, info) {
