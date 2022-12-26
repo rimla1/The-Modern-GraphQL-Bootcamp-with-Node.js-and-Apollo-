@@ -66,7 +66,7 @@ const Mutation = {
 
     return user;
   },
-  createPost(parent, args, { db }, info) {
+  createPost(parent, args, { db, pubsub }, info) {
     const userExist = db.users.some((user) => user.id === args.data.author);
     if (!userExist) {
       throw new Error("User not found associated with a post!");
@@ -77,7 +77,7 @@ const Mutation = {
       ...args.data,
     };
     db.posts.push(post);
-
+    pubsub.publish(`Post ${post.author}`, { post: post });
     return post;
   },
   deletePost(parent, args, { db }, info) {
