@@ -25,12 +25,8 @@ const Subscription = {
     },
   },
   post: {
-    subscribe(parent, { userId }, { db, pubsub }, info) {
-      const userExist = db.users.find((user) => user.id === userId);
-      if (!userExist) {
-        throw new Error("User to subscribe is not found!");
-      }
-      return pubsub.asyncIterator(`Post ${userId}`);
+    subscribe(parent, args, { db, pubsub }, info) {
+      return pubsub.asyncIterator(`Post`);
     },
   },
 };
