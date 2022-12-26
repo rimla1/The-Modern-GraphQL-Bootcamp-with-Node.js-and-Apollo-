@@ -15,16 +15,22 @@ const Subscription = {
   },
   comment: {
     subscribe(parent, { postId }, { db, pubsub }, info) {
-      console.log("Ovde ulazi");
       const postExist = db.posts.find(
         (post) => postId === post.id && post.published
       );
-      console.log(postExist);
       if (!postExist) {
         throw new Error("Post not found!");
       }
-      console.log(`Comment ${postId}`);
       return pubsub.asyncIterator(`Comment ${postId}`);
+    },
+  },
+  post: {
+    subscribe(parent, { userId }, { db, pubsub }, info) {
+      const userExist = db.users.find((user) => user.id === userId);
+      if (!userExist) {
+        throw new Error("User to subscribe is not found!");
+      }
+      return pubsub.asyncIterator(`Post ${userId}`);
     },
   },
 };
