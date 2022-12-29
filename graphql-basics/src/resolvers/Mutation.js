@@ -77,9 +77,15 @@ const Mutation = {
       ...args.data,
     };
     db.posts.push(post);
-    console.log(post, post.published);
+    console.log("Jel ovo dolazi ovde");
+    console.log(post);
     if (post.published) {
-      pubsub.publish(`Post`, { post: post });
+      pubsub.publish(`Post`, {
+        post: {
+          mutation: "CREATE",
+          data: post,
+        },
+      });
     }
 
     return post;
