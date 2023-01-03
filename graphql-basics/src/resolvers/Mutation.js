@@ -109,6 +109,8 @@ const Mutation = {
   },
   updatePost(parent, args, { db }, info) {
     const post = db.posts.find((post) => post.id === args.id);
+    const originalPost = { ...post };
+
     if (!post) {
       throw new Error("Post is not found!");
     }
