@@ -172,7 +172,7 @@ const Mutation = {
     pubsub.publish(`Comment ${comment.post}`, { comment: comment });
     return comment;
   },
-  deleteComment(parent, args, { db }, info) {
+  deleteComment(parent, args, { db, pubsub }, info) {
     const commentIndex = db.comments.findIndex(
       (comment) => comment.id === args.id
     );
@@ -180,7 +180,7 @@ const Mutation = {
       throw new Error("Comment does not exist");
     }
     const { deletedComment } = db.comments.splice(commentIndex, 1);
-
+    pubsub.publish(`Comment ${deletedComment.post}`);
     return deletedComment;
   },
   updateComment(parent, args, { db }, info) {
