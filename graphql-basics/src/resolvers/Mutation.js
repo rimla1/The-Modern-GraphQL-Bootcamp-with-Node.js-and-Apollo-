@@ -179,9 +179,9 @@ const Mutation = {
     if (commentIndex === -1) {
       throw new Error("Comment does not exist");
     }
-    const deletedComments = db.comments.splice(commentIndex, 1);
+    const { deletedComment } = db.comments.splice(commentIndex, 1);
 
-    return deletedComments[0];
+    return deletedComment;
   },
   updateComment(parent, args, { db }, info) {
     const comment = db.comments.find((comment) => args.id === comment.id);
