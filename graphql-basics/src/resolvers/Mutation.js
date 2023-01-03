@@ -123,10 +123,7 @@ const Mutation = {
     }
 
     if (typeof args.data.published === "boolean") {
-      console.log(post.published, originalPost.published);
       post.published = args.data.published;
-      console.log(post.published, originalPost.published);
-
       if (!originalPost.published && post.published) {
         pubsub.publish("Post", {
           post: {
@@ -135,7 +132,6 @@ const Mutation = {
           },
         });
       }
-      // delete first test:
       if (originalPost.published && !post.published) {
         pubsub.publish("Post", {
           post: {
