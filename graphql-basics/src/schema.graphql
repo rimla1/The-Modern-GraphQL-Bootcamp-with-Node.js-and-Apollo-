@@ -99,3 +99,9 @@ type CommentSubscriptionPayload {
   mutation: String!
   data: Comment!
 }
+
+enum MutationType {
+  CREATED
+  DELETED
+  UPDATED
+}

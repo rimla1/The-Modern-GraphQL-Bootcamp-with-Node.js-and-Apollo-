@@ -127,7 +127,7 @@ const Mutation = {
       if (!originalPost.published && post.published) {
         pubsub.publish("Post", {
           post: {
-            mutation: "CREATE",
+            mutation: "CREATED",
             data: post,
           },
         });
@@ -135,7 +135,7 @@ const Mutation = {
       if (originalPost.published && !post.published) {
         pubsub.publish("Post", {
           post: {
-            mutation: "DELETE",
+            mutation: "DELETED",
             data: originalPost,
           },
         });
@@ -171,7 +171,7 @@ const Mutation = {
     db.comments.push(comment);
     pubsub.publish(`Comment ${comment.post}`, {
       comment: {
-        mutation: "Created",
+        mutation: "CREATED",
         data: comment,
       },
     });
