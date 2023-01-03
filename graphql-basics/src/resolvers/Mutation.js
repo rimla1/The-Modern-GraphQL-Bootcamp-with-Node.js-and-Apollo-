@@ -127,6 +127,21 @@ const Mutation = {
 
       // Creating a post from updatePost resolver [Current state of published: False -> True]
       if (!originalPost.published && post.published) {
+        pubsub.publish("Post", {
+          post: {
+            mutation: "CREATE",
+            data: post,
+          },
+        });
+      }
+      // Deleting a post from updatePost resolver [Current state of published: True -> False]
+      if (originalPost.published && !post.published) {
+        pubsub("Post", {
+          post: {
+            mutation: "DELETE",
+            data: post,
+          },
+        });
       }
     }
 
