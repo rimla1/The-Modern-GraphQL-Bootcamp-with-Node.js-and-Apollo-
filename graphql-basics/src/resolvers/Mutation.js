@@ -180,7 +180,12 @@ const Mutation = {
       throw new Error("Comment does not exist");
     }
     const { deletedComment } = db.comments.splice(commentIndex, 1);
-    pubsub.publish(`Comment ${deletedComment.post}`);
+    pubsub.publish(`Comment ${deletedComment.post}`, {
+      comment: {
+        mutation: "DELETED",
+        data: deletedComment,
+      },
+    });
     return deletedComment;
   },
   updateComment(parent, args, { db }, info) {
