@@ -107,7 +107,7 @@ const Mutation = {
 
     return post;
   },
-  updatePost(parent, args, { db }, info) {
+  updatePost(parent, args, { db, pubsub }, info) {
     const post = db.posts.find((post) => post.id === args.id);
     const originalPost = { ...post };
 
@@ -124,6 +124,10 @@ const Mutation = {
 
     if (typeof args.data.published === "boolean") {
       post.published = args.data.published;
+
+      // Creating a post from updatePost resolver [Current state of published: False -> True]
+      if (!originalPost.published && post.published) {
+      }
     }
 
     return post;
