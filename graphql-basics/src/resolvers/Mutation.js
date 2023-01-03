@@ -97,6 +97,8 @@ const Mutation = {
 
     db.comments = db.comments.filter((comment) => comment.post !== args.id);
     if (deletedPosts[0].published) {
+      console.log("Ulazi u if check");
+      console.log(deletedPosts[0]);
       pubsub.publish("Post", {
         post: {
           mutation: "DELETE",

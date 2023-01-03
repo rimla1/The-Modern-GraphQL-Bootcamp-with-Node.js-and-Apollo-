@@ -22,7 +22,6 @@ type Mutation {
 type Subscription {
   comment(postId: ID!): Comment!
   post: PostSubscriptionPayload!
-  deletePost: PostSubscriptionPayload!
 }
 
 input createUserInput {
