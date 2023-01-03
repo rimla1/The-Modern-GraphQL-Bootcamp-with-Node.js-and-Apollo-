@@ -96,6 +96,9 @@ const Mutation = {
     const deletedPosts = db.posts.splice(postIndex, 1);
 
     db.comments = db.comments.filter((comment) => comment.post !== args.id);
+    if (deletedPosts[0].published) {
+      console.log("Ovo radi kada izbrisem post koji je publishovan");
+    }
 
     return deletedPosts[0];
   },
