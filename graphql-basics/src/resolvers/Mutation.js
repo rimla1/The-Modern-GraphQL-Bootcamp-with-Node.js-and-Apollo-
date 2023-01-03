@@ -88,7 +88,7 @@ const Mutation = {
 
     return post;
   },
-  deletePost(parent, args, { db }, info) {
+  deletePost(parent, args, { db, pubsub }, info) {
     const postIndex = db.posts.findIndex((post) => post.id === args.id);
     if (postIndex === -1) {
       throw new Error("Post does not exists");
@@ -97,7 +97,12 @@ const Mutation = {
 
     db.comments = db.comments.filter((comment) => comment.post !== args.id);
     if (deletedPosts[0].published) {
-      console.log("Ovo radi kada izbrisem post koji je publishovan");
+      pubsub.publish("Post", {
+        post: {
+          mutation: "DELETE",
+          data: deletedPosts[0],
+        },
+      });
     }
 
     return deletedPosts[0];
