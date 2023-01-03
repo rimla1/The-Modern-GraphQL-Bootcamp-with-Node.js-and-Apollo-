@@ -180,7 +180,6 @@ const Mutation = {
       throw new Error("Comment does not exist");
     }
     const [deletedComment] = db.comments.splice(commentIndex, 1);
-    console.log("Hello", deletedComment.post);
     pubsub.publish(`Comment ${deletedComment.post}`, {
       comment: {
         mutation: "DELETED",
@@ -189,7 +188,7 @@ const Mutation = {
     });
     return deletedComment;
   },
-  updateComment(parent, args, { db }, info) {
+  updateComment(parent, args, { db, pubsub }, info) {
     const comment = db.comments.find((comment) => args.id === comment.id);
     if (!comment) {
       throw new Error("Comment not Found!");
@@ -197,6 +196,13 @@ const Mutation = {
 
     if (typeof args.data.text === "string") {
       comment.text = args.data.text;
+      console.log(comment.id, args.id);
+      pubsub.publish(`Comment ${args.id}`, {
+        comment: {
+          mutation: "UPDATED",
+          data: comment,
+        },
+      });
     }
 
     return comment;
