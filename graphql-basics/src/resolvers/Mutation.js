@@ -169,7 +169,12 @@ const Mutation = {
     };
 
     db.comments.push(comment);
-    pubsub.publish(`Comment ${comment.post}`, { comment: comment });
+    pubsub.publish(`Comment ${comment.post}`, {
+      comment: {
+        mutation: "Created",
+        data: comment,
+      },
+    });
     return comment;
   },
   deleteComment(parent, args, { db, pubsub }, info) {
