@@ -123,9 +123,10 @@ const Mutation = {
     }
 
     if (typeof args.data.published === "boolean") {
+      console.log(post.published, originalPost.published);
       post.published = args.data.published;
+      console.log(post.published, originalPost.published);
 
-      // Creating a post from updatePost resolver [Current state of published: False -> True]
       if (!originalPost.published && post.published) {
         pubsub.publish("Post", {
           post: {
@@ -134,15 +135,23 @@ const Mutation = {
           },
         });
       }
-      // Deleting a post from updatePost resolver [Current state of published: True -> False]
+      // delete first test:
       if (originalPost.published && !post.published) {
-        pubsub("Post", {
+        pubsub.publish("Post", {
           post: {
             mutation: "DELETE",
-            data: post,
+            data: originalPost,
           },
         });
       }
+    }
+    if (post.published) {
+      pubsub.publish("Post", {
+        post: {
+          mutation: "UPDATED",
+          data: post,
+        },
+      });
     }
 
     return post;
