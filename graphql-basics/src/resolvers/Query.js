@@ -31,6 +31,7 @@ const Query = {
     };
   },
   post() {
+    console.log("post query");
     return {
       id: "4333",
       title: "Winter",
@@ -40,6 +41,7 @@ const Query = {
     };
   },
   comments(parent, args, { db }, info) {
+    console.log("comments query");
     return db.comments;
   },
 };

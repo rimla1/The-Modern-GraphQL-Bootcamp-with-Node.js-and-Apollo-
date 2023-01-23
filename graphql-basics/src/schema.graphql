@@ -86,7 +86,7 @@ type Post {
 type Comment {
   id: ID!
   text: String!
-  author: User!
+  author: User
   post: Post!
 }
 
